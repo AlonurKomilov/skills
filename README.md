@@ -9,7 +9,7 @@ Agent Skills format — the same SKILL.md runs on claude.ai, Claude Code and the
 | ux-layout-composition-audit | geometry (S1-S5, Part R) |
 | ux-design-system-audit | token compliance (Part V) |
 | ux-component-sourcing | how to obtain components (Build ladder) |
-| ux-interaction-performance-audit | time / main thread (M1-M9, Part O) — v1.4 |
+| ux-interaction-performance-audit | time / main thread (M1-M9, Part O, tools/measure.mjs) |
 
 ## Flow
 
@@ -32,11 +32,40 @@ Claude Code follows symlinks; project-specific skills stay in each repo's
 ## Rules
 
 - `./validate.sh` must pass before commit (description <= 1024 bytes, name
-  format, folder == name). Descriptions are single-line.
+  format, folder == name, stamp name == frontmatter name). Descriptions are
+  single-line.
 - Method layer only in skills; project values (budgets, tokens) live in each
   project's CLAUDE.md.
 - Add-only edits, shown as diffs; every patch cites source evidence (field
   runs or taught material). One mechanism = one finding.
+
+## Versioning
+
+One version per skill folder, semver `vMAJOR.MINOR.PATCH`:
+
+- **MAJOR** = the report contract (the "Framework version" in the skill's
+  output format) — bumps only on breaking changes to statuses/format that
+  affect cross-session rollups.
+- **MINOR** = new capability: a new Part, mechanism class, pattern (e.g.
+  seeded-rig), or bundled tool.
+- **PATCH** = fixes and clarifications that add no capability.
+
+One number, three places, always in the same commit as the change:
+
+1. the SSOT stamp — last line of SKILL.md:
+   `<!-- SSOT: github.com/AlonurKomilov/skills · <name> vX.Y.Z · YYYY-MM-DD -->`
+2. the commit message prefix: `<name> vX.Y.Z: …`
+3. the claude.ai deploy — upload only stamped files, so a library copy
+   always answers "which version am I?" by its own last line.
+
+`./validate.sh` extracts and prints every skill's version; a content change
+without a stamp bump fails review. Git log is the changelog — no separate
+CHANGELOG file. Sync check = compare stamps (library vs repo HEAD) first,
+then hashes when stamps agree.
+
+Baselines (2026-08-23): psychology **v2.0.0** · layout **v1.0.0** ·
+design-system **v1.0.0** · sourcing **v1.0.0** ·
+interaction-performance **v1.4.1**.
 
 ## abc-lab/ — the family's kept-tooling workspace
 

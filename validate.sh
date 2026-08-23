@@ -6,11 +6,18 @@ for f in */SKILL.md; do
   desc=$(awk '/^description:/{sub(/^description: /,""); print; exit}' "$f")
   dlen=$(printf %s "$desc" | wc -c)
   dir=$(dirname "$f")
+  stamp=$(grep -o '<!-- SSOT: github.com/AlonurKomilov/skills[^>]*-->' "$f" | tail -1)
+  ver=$(printf '%s' "$stamp" | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+')
+  sname=$(printf '%s' "$stamp" | grep -oE '· [a-z0-9-]+ v' | sed 's/^· //; s/ v$//')
   ok=1
   [ -z "$name" ] && { echo "FAIL $f: frontmatter name yo'q"; ok=0; }
   echo "$name" | grep -Eq '^[a-z0-9][a-z0-9-]{0,63}$' || { echo "FAIL $f: name format ('$name')"; ok=0; }
   [ "$dlen" -gt 1024 ] && { echo "FAIL $f: description ${dlen}B > 1024"; ok=0; }
   [ "$dir" != "$name" ] && echo "WARN $f: papka '$dir' != name '$name'"
-  [ $ok -eq 1 ] && echo "OK   $name (desc ${dlen}B)" || fail=1
+  if [ -z "$stamp" ]; then echo "WARN $f: SSOT stamp yo'q"
+  elif [ -z "$ver" ]; then echo "WARN $f: stamp versiyasiz (legacy)"
+  elif [ -n "$sname" ] && [ "$sname" != "$name" ]; then echo "FAIL $f: stamp nomi '$sname' != '$name'"; ok=0
+  fi
+  [ $ok -eq 1 ] && echo "OK   $name ${ver:-v?} (desc ${dlen}B)" || fail=1
 done
 exit $fail
