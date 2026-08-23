@@ -9,7 +9,7 @@ Agent Skills format — the same SKILL.md runs on claude.ai, Claude Code and the
 | ux-layout-composition-audit | geometry (S1-S5, Part R) |
 | ux-design-system-audit | token compliance (Part V) |
 | ux-component-sourcing | how to obtain components (Build ladder) |
-| ux-interaction-performance-audit | time / main thread (M1-M9, Part O) — v1.3 |
+| ux-interaction-performance-audit | time / main thread (M1-M9, Part O) — v1.4 |
 
 ## Flow
 
@@ -37,6 +37,17 @@ Claude Code follows symlinks; project-specific skills stay in each repo's
   project's CLAUDE.md.
 - Add-only edits, shown as diffs; every patch cites source evidence (field
   runs or taught material). One mechanism = one finding.
+
+## abc-lab/ — the family's kept-tooling workspace
+
+Skills never write into an audited project's tree. Measurements and rigs are
+disposable by default. When a project owner explicitly asks to KEEP a
+harness/rig/script a skill created, it lives at
+`abc-lab/skills/<skill-name>/<harness>/` in the project root — namespaced by
+owning skill, runtime files git-ignored, a one-line README inside. Contract:
+`rm -rf abc-lab` removes every trace of the family's tooling from the
+project. (Convention defined in ux-interaction-performance-audit v1.4;
+applies to the whole family.)
 
 ## Migration notes — 2026-08-21 seed
 
