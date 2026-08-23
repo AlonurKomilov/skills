@@ -55,6 +55,44 @@ identical (the working tree is truth, git only locates scope):
   staging run for any write-path gesture. Some benign writes are
   unavoidable (view/preference persistence, telemetry) — enumerate every
   write the audit itself caused, and end in the found state.
+  **Writes-heavy surfaces — the seeded-rig pattern:** when every
+  interesting gesture writes (a payroll board, an order editor) or the
+  owner forbids real accounts entirely, build the staging run yourself:
+  a throwaway database container + the project's OWN seed/test path
+  filled with fake data at production scale + the production build
+  served locally + auth injected as a rig-minted token.  Full gesture
+  freedom, zero real-data risk — and the rig doubles as a permanent
+  A/B harness for verifying fixes.  Its honesty rule: on a
+  shared/loaded machine (a dev box also running production) rig
+  numbers are RELATIVE-only — valid for change-vs-baseline and
+  structural counts (DOM nodes, CLS composition), never for absolute
+  budget verdicts, which need an idle desktop-class machine at the
+  throttle the SLO names.
+  **Measurements are one-time and disposable:** tear-down is PART of
+  the run — no report files, no kept logs, no lingering
+  processes/containers/scratch builds.  A result's only permanent
+  home is the commit message of the change it justifies (plus the
+  in-chat report).  A stale number looks identical to a fresh one and
+  WILL be trusted by whoever finds it — always re-measure, never
+  re-read.
+  **Workspace isolation:** the runner, any rig, and every artifact
+  they create (profiles, minted tokens, scratch builds, containers,
+  browser installs) live in an ISOLATED disposable workspace — the
+  session scratchpad or OS temp — never inside the audited project's
+  tree.  The user's project stays clean: nothing to hunt down and
+  delete tomorrow.  Hosts and ports are never assumed or hardcoded —
+  they come from the profile or the environment, a rig binds
+  loopback-only, and a taken port means pick another, never fight for
+  it.  If the owner explicitly asks to KEEP a per-project harness, it
+  lives in the family's ONE workspace folder at the project root —
+  **`abc-lab/skills/<skill-name>/<harness>/`** — never scattered through the
+  project's own tree.  `abc-lab/` is the abc-skills family's
+  designated lab: every kept tool, rig or script any family skill
+  creates goes there, namespaced by its owning skill so ownership is
+  readable from the path, each harness self-contained with its runtime
+  files git-ignored, and the whole lab carries a one-line README
+  saying so.  The contract to the owner: `rm -rf abc-lab` removes
+  every trace of the family's tooling from the project, always.
 
 In every mode: never guess about code you haven't read — mark
 `NEEDS-CONTEXT` and name the exact file or measurement you need.
@@ -223,7 +261,14 @@ is explained:
 6. **Agentic repro** — script the exact gesture (Playwright/CDP), capture
    trace + INP, assert against Step 0b budgets. This converts the audit
    from one-off to repeatable (pre-merge/CI). Method lives here;
-   thresholds come from the project.
+   thresholds come from the project.  A bundled profile-driven runner
+   ships with this skill at `tools/measure.mjs`: point it at ANY
+   project with a small JSON profile (base URL, auth injection,
+   per-page ready-signals and gestures, run count, throttle levels) —
+   it prints this skill's report tables and writes nothing to disk.
+   Scripted gestures are also a free accessibility probe: a
+   strict-mode locator failing on DUPLICATE accessible names is a
+   real finding — route it to the siblings.
 7. **Heap snapshot ×2** (M9 suspected) — before/after N gestures; compare
    detached nodes and listener counts.
 
@@ -406,5 +451,8 @@ ephemeral.
 - Quoting a speedup multiplier without its measured Amdahl share.
 - Starting at L5 micro-tuning while L1–L3 rungs sit unexplored.
 - Benchmarking single runs — ×3 minimum, with the spread reported.
+- Leaving measurement residue — logs, result files, rig processes or
+  containers — after the run; or re-reading any stored number instead
+  of re-measuring.
 
-<!-- SSOT: github.com/AlonurKomilov/skills · 2026-08-21 -->
+<!-- SSOT: github.com/AlonurKomilov/skills · 2026-08-21 · v1.4: seeded-rig pattern, disposable-measurement rule, workspace isolation + the abc-lab/ workspace convention, bundled tools/measure.mjs runner, duplicate-name probe -->
