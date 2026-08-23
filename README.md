@@ -31,9 +31,9 @@ Claude Code follows symlinks; project-specific skills stay in each repo's
 
 ## Rules
 
-- `./validate.sh` must pass before commit (description <= 1024 bytes, name
-  format, folder == name, stamp name == frontmatter name). Descriptions are
-  single-line.
+- `./validate.sh` must pass before commit: strict-YAML frontmatter,
+  description <= 1024 bytes (single line, and YAML-safe — no `: `
+  colon+space inside plain scalars), name format, folder == name.
 - Method layer only in skills; project values (budgets, tokens) live in each
   project's CLAUDE.md.
 - Add-only edits, shown as diffs; every patch cites source evidence (field
@@ -52,16 +52,19 @@ One version per skill folder, semver `vMAJOR.MINOR.PATCH`:
 
 One number, three places, always in the same commit as the change:
 
-1. the SSOT stamp — last line of SKILL.md:
-   `<!-- SSOT: github.com/AlonurKomilov/skills · <name> vX.Y.Z · YYYY-MM-DD -->`
+1. the frontmatter `version:` field — renders as a table row on GitHub and
+   as a labeled field in the claude.ai preview; `source:` sits beside it
+   linking back here. The last line of every SKILL.md stays a version-less
+   SSOT pointer: `<!-- SSOT: github.com/AlonurKomilov/skills -->`.
 2. the commit message prefix: `<name> vX.Y.Z: …`
-3. the claude.ai deploy — upload only stamped files, so a library copy
-   always answers "which version am I?" by its own last line.
+3. the claude.ai deploy — upload only from this repo, so a library copy
+   always answers "which version am I?" in its own frontmatter.
 
-`./validate.sh` extracts and prints every skill's version; a content change
-without a stamp bump fails review. Git log is the changelog — no separate
-CHANGELOG file. Sync check = compare stamps (library vs repo HEAD) first,
-then hashes when stamps agree.
+`./validate.sh` extracts and prints every skill's version and rejects
+non-strict-YAML frontmatter; a content change without a version bump fails
+review. Git log is the changelog — no separate CHANGELOG file. Sync check =
+compare frontmatter versions (library vs repo HEAD) first, then hashes when
+versions agree.
 
 Baselines (2026-08-23): psychology **v2.0.0** · layout **v1.0.0** ·
 design-system **v1.0.0** · sourcing **v1.0.0** ·
@@ -85,5 +88,6 @@ applies to the whole family.)
   conditionals", "cannot" -> "can't", "or when auditing" -> "or auditing";
   design-system sibling parenthetical shortened.
 - ux-interaction-performance-audit seeded at v1.3 (after two live field runs).
-- SSOT stamp line appended to every SKILL.md; from here, git history is the
-  version record.
+- 2026-08-23: versions moved to frontmatter (`version:` + `source:` keys);
+  bottom stamps reduced to the version-less SSOT pointer; perf description
+  made strict-YAML-safe ("Reads TIME:" colon -> em-dash).
