@@ -30,7 +30,7 @@ for f in */SKILL.md; do
   [ -z "$kind" ] && { echo "FAIL $f: kind yo'q"; ok=0; }
   [ -z "$method" ] && { echo "FAIL $f: method yo'q"; ok=0; }
   if [ -n "$domain" ] && [ -n "$method" ] && [ -n "$kind" ]; then
-    expected="$domain-$method-$kind"
+    expected="$domain-$kind-$method"
     [ "$name" != "$expected" ] && { echo "FAIL $f: name-invariant — name='$name' expected='$expected'"; ok=0; }
   fi
   [ $ok -eq 1 ] && echo "OK   $name v${ver:-?}  family=$family domain=$domain kind=$kind method=$method (desc ${dlen}B)" || fail=1
