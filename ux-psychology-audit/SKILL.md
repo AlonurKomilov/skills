@@ -1,6 +1,10 @@
 ---
 name: ux-psychology-audit
-version: 2.0.0
+version: 2.0.1
+family: abc
+domain: ux
+kind: audit
+method: psychology
 source: https://github.com/AlonurKomilov/skills
 description: Full UX audit of any user-facing feature, flow, screen, or service — TWO parts in one run. Part P audits behavioral psychology (Smart Defaults, Goal Gradient, Reciprocity, IKEA Effect, Loss Aversion, Contrast Effect + ethics gate). Part C audits clarity for a NEW user (C1 object map/OOUX, C2 component grammar, C3 cognitive walkthrough). On explicit request ("deep audit", "component by component", "tree audit", "audit every word/element") switch to Part T — audit every node of the component tree (wording, control choice, visual form, behavior, sibling consistency), then synthesize the whole image. Use when the user asks for a "UX audit", "psychology review", "clarity audit", "UX check", says a screen is confusing / not understandable / components look alike, or when wrapping up a user-facing feature and project instructions call for a UX pass. Works on ANY surface in any product domain; can audit the live rendered UI when browser/screenshot tools exist. Report delivered IN CHAT (no files by default).
 ---

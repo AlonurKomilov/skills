@@ -1,6 +1,10 @@
 ---
 name: ux-component-sourcing
-version: 1.0.0
+version: 1.0.1
+family: abc
+domain: ux
+kind: sourcing
+method: component
 source: https://github.com/AlonurKomilov/skills
 description: Decide how to obtain any UI capability — reuse an existing component, compose it from existing primitives, build a new design-system component, or (last resort) add an external library. ALWAYS use this skill BEFORE suggesting or installing any UI dependency (npm install of a component/UI package, adding a CDN @require, vendoring code), when implementing a fix or feature that needs a component the project might not have, when the user asks "which library should we use", "build or install?", "do we have a component for this?", or when an audit finding carries a Build tag of compose, new-component, or new-dependency. Never name a library before reading the project's actual stack — Step 0 grounding is mandatory.
 ---
