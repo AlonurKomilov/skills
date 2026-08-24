@@ -11,6 +11,7 @@ for f in */SKILL.md; do
   domain=$(printf '%s\n' "$fm" | awk -F': ' '/^domain:/{print $2; exit}')
   kind=$(printf '%s\n' "$fm" | awk -F': ' '/^kind:/{print $2; exit}')
   method=$(printf '%s\n' "$fm" | awk -F': ' '/^method:/{print $2; exit}')
+  scope=$(printf '%s\n' "$fm" | awk -F': ' '/^scope:/{print $2; exit}')
   desc=$(printf '%s\n' "$fm" | awk '/^description:/{sub(/^description: /,""); print; exit}')
   dlen=$(printf %s "$desc" | wc -c)
   ok=1
@@ -28,12 +29,14 @@ for f in */SKILL.md; do
   [ -z "$family" ] && { echo "FAIL $f: family yo'q"; ok=0; }
   [ -z "$domain" ] && { echo "FAIL $f: domain yo'q"; ok=0; }
   [ -z "$kind" ] && { echo "FAIL $f: kind yo'q"; ok=0; }
-  [ -z "$method" ] && { echo "FAIL $f: method yo'q"; ok=0; }
-  if [ -n "$domain" ] && [ -n "$method" ] && [ -n "$kind" ]; then
-    expected="$domain-$kind-$method"
+  [ -z "$method" ] && [ -z "$scope" ] && { echo "FAIL $f: method va scope ikkalasi ham yo'q — kamida bittasi kerak"; ok=0; }
+  if [ -n "$domain" ] && [ -n "$kind" ]; then
+    expected="$domain-$kind"
+    [ -n "$method" ] && expected="$expected-$method"
+    [ -n "$scope" ] && expected="$expected-$scope"
     [ "$name" != "$expected" ] && { echo "FAIL $f: name-invariant — name='$name' expected='$expected'"; ok=0; }
   fi
-  [ $ok -eq 1 ] && echo "OK   $name v${ver:-?}  family=$family domain=$domain kind=$kind method=$method (desc ${dlen}B)" || fail=1
+  [ $ok -eq 1 ] && echo "OK   $name v${ver:-?}  family=$family domain=$domain kind=$kind method=${method:--} scope=${scope:--} (desc ${dlen}B)" || fail=1
 done
 [ -n "$yamlwarn" ] && echo "WARN: python3+pyyaml topilmadi — strict-YAML tekshiruvi o'tkazib yuborildi"
 exit $fail
