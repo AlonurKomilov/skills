@@ -1,6 +1,6 @@
 ---
 name: ux-audit-psychology
-version: 2.0.3
+version: 2.1.0
 family: abc
 domain: ux
 kind: audit
@@ -26,7 +26,7 @@ feel obvious, valuable, and worth completing.
 
 > **Boundary:** neither part audits visual design-system compliance. Tokens,
 > spacing, radius, icon scale, and component reuse belong to the
-> `ux-audit-design-system` skill, which discovers the project's own
+> `ux-audit-compliance-design-system` skill, which discovers the project's own
 > design docs and token sources and audits against those.
 > Part C's "grammar" findings are about MEANING collisions (a status label
 > shaped like a button), not token values — if a finding is fixable by
@@ -35,7 +35,7 @@ feel obvious, valuable, and worth completing.
 > communicates structure — regions enclosed, between-group air exceeding
 > within-group, source vs destination legible without reading, drop targets
 > visible before a drag, layouts that hold still — belongs to
-> `ux-audit-layout-composition`, not here. Route those findings there.
+> `ux-audit-composition-layout`, not here. Route those findings there.
 > (One deliberate difference: that skill's S3 overrides Part T's T5 for
 > regions — sibling REGIONS playing OPPOSITE interaction roles must look
 > different, even though sibling ELEMENTS share one grammar.)
