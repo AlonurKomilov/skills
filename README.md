@@ -110,8 +110,8 @@ change without a version bump fails review. Git log is the changelog — no
 separate CHANGELOG file. Sync check = compare frontmatter versions
 (library vs repo HEAD) first, then hashes when versions agree.
 
-Baselines (2026-08-24): psychology **v2.1.0** · composition-layout **v1.1.0** ·
-compliance-design-system **v1.1.0** · performance-interaction **v1.6.0** ·
+Baselines (2026-08-27): psychology **v2.1.0** · composition-layout **v1.1.0** ·
+compliance-design-system **v1.1.0** · performance-interaction **v1.6.1** ·
 sourcing-component **v1.1.0**.
 
 ## abc-lab/ — the family's kept-tooling workspace
