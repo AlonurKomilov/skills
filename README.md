@@ -116,7 +116,7 @@ separate CHANGELOG file. Sync check = compare frontmatter versions
 
 Baselines (2026-09-03): psychology **v2.1.0** · composition-layout **v1.1.0** ·
 compliance-design-system **v1.1.0** · performance-interaction **v1.6.1** ·
-disclosure-depth **v1.1.0** · sourcing-component **v1.1.0**.
+disclosure-depth **v1.2.0** · sourcing-component **v1.1.0**.
 
 ## abc-lab/ — the family's kept-tooling workspace
 
@@ -169,3 +169,16 @@ ux-audit-performance-interaction v1.4–v1.5; applies to the whole family.)
   verdict for questions already answered in-glance on the same surface
   (the run had to footnote this); duplicates route to psychology T5;
   ethics gate names absent-data-as-favourable-value.
+- 2026-09-03: `ux-audit-disclosure-depth` v1.2.0 after its second and third
+  field runs. From the settings surface: hidden-state census rows tagged
+  `[state: <trigger>]` with state-conditional verdicts (the run had to
+  annotate these by hand); embedded values split from their sentence;
+  answer-shape catalog in Step 4 — hidden question × class → what the
+  disclosure must contain, form-agnostic, seeded only from field evidence.
+  From the tabular reports surface: controls (sort, export, pager, help,
+  assistant entry) are not census rows unless they pose as a datum's path;
+  D1 integrity check — a field that disagrees with its counterpart on
+  another surface is DEGRADED and carries a "not until reconciled"
+  constraint (the run had to invent this); ethics mirror case extended to
+  dash-columns, blank error tables and short-count summaries; optional
+  "Governing finding" line before the census.

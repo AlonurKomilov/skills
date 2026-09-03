@@ -1,6 +1,6 @@
 ---
 name: ux-audit-disclosure-depth
-version: 1.1.0
+version: 1.2.0
 family: abc
 domain: ux
 kind: audit
@@ -121,6 +121,29 @@ Columns:
   that give it its affordance; screenshots count as `[ui]`, source as
   `[code]`.
 
+**Controls are not data.** Sort, pin, group, filter, search, export,
+pagination, density, help icons and assistant entry points arrange or
+act on values; they are not values and take no census row. The one
+exception: a control that presents itself as the PATH to a datum's
+hidden question ("Ask about these faults") enters as a path — judged
+through the `Answers` column, and `OVER-DISCLOSED (wrong-question)`
+when it opens something else. Arrangement controls with problems are
+routed (psychology T2, composition S3), never scored here.
+
+Two census rules the surface alone will not show you:
+
+- **Embedded values.** Prose that carries a value ("your fleet (189)
+  generates enough…") yields TWO rows: the embedded value with its
+  own class, and the sentence as `text`. Score the value; a sentence
+  is almost always `FLAT`, and scoring it inflates the census.
+- **Hidden states.** A field that is null today but reshapes the
+  surface when set (a scheduled date, a suspended or pending status,
+  a limit reached) gets its own row tagged `[state: <trigger>]`,
+  scored FOR that state from the source. Its verdict is
+  state-conditional and the report says so, naming the trigger. Mode
+  D never renders these; Step 0a must find them — the only state where
+  a number matters is often the one not on screen during the audit.
+
 The census is the audit's completeness proof: a value not in it was
 silently skipped. Every `hint` row is a lead — a hint is the surface
 half-admitting a question it does not answer.
@@ -142,6 +165,14 @@ single number the evidence does not support.
 
 Evidence discipline per factor:
 - D1 and D5 cite the SOURCE (endpoint, field, model) — never the label.
+- **D1 also checks integrity.** When the same field is rendered on
+  another surface of the product, compare the two. A field whose
+  values disagree with its counterpart (zeros here, real counts there;
+  empty strings here, timestamps there) is DEGRADED: D1 keeps its
+  score, but every finding that would disclose that field carries the
+  constraint "not until reconciled", named by field and by the two
+  surfaces. Disclosing a degraded field is the ethics gate's mirror
+  case — a wrong number is worse than a thin one.
 - D2 cites product behaviour (an alert, a filter chip, a threshold in
   code) or the user's stated workflow. A judgment call is written as
   `?`, never as a cautious `1` — a conservative number still prints as
@@ -210,6 +241,30 @@ question; never a higher one for spectacle:**
 | R3 | **Drawer / side panel** — keeps the surface context | the answer is a full record, context still needed |
 | R4 | **Dedicated surface** — a page or route | the answer is a workflow or a large dataset |
 
+**Answer-shape catalog — what the disclosure must CONTAIN.** The rung
+says how deep; this says what. Keyed by the hidden question and the
+class it usually rides on — never by a domain noun. Every row below
+was seeded from a field run; extend it only with cited evidence.
+
+| Hidden question | Answer shape | Usual rung | Rides on |
+|---|---|---|---|
+| "is this still true / as of when?" | age stamp ("18h ago", "as of 13:35") | R0 | `status`, `level` served from a cache |
+| "how long has it been like this?" | duration / dwell ("idle 8h", "here since 06:10") | R0 | `status` |
+| "is it going up or down?" | trend — a small series over the natural window | R0 in a tile, else R1 | `level` |
+| "what is this made of?" | breakdown / split of the total | R1–R2 | `counter`, `money` |
+| "who set this, and when?" | provenance line — last value, actor, time | R0 | `status` that is a setting |
+| "which of these two is right?" | basis caption on each ("meter delta" vs "sum of daily readings") | R0 | paired `counter` / `level` |
+| "what's the rest of it?" | the referenced object, reachable | R0 link | `reference` |
+| "what happens next, and by when?" | next date / deadline, computed | R0 | `timestamp`, hidden-state rows |
+| "is this normal here?" | comparison to the threshold or baseline the product already uses | R0–R1 | `level` |
+| "what else is wrong, who has it?" | the related items with severity, age, owner | R2 | `status` that is an all-clear |
+| "can I do something about it?" | the action already tied to this value (create, acknowledge, open) | R2 | `status` with a remediation path |
+
+A shape is not a widget: "trend" may be a sparkline, a tooltip
+series or an expandable chart — that choice is `ux-audit-psychology`
+T2's. An `identifier` never takes a shape from this table; its need
+is a utility action (copy, open-in-source).
+
 Name the rung in the project's own vocabulary (Step 0b). The finding
 carries `Impact · Effort · Build`; `Build: new-component` /
 `new-dependency` hands off to `ux-sourcing-component`. WHICH control
@@ -225,8 +280,11 @@ A price, a consequence, a loss, or a way out that lives only behind
 an interaction is `DARK-PATTERN-RISK`, however clean the surface
 looks. Simplifying by hiding is not simplifying. The mirror case passes
 through the same gate: absent data rendered as a favourable value — a
-cost that could not be computed shown as zero — is omission dressed as
-a measurement; the honest form is the empty state.
+cost that could not be computed shown as zero, a column of dashes over
+a field the response never fills, a failed request rendered as a full
+table of blanks — is omission dressed as a measurement; the honest form
+is the empty state, and a summary that does not cover its stated
+population names the remainder.
 
 ## Step 6 — Output format (mergeable with the family)
 
@@ -237,6 +295,7 @@ a measurement; the honest form is the empty state.
 - Date: <date> | Auditor session: <short id>
 - Step 0 digest: data source <where> · depth vocabulary <primitives found> · values rules <found / SSOT-GAP>
 - Surfaces audited: <n> | Not yet audited: <list or "none">
+- Governing finding (optional): <the one change that answers most rows — a link to an existing surface, a prop already wired elsewhere — stated before the census when it exists>
 
 ## Datum census
 | # | Value (rendered) | Class | Affordance | Answers | D1 | D2 | D3 | D4 | D5 | D6 | Total | Status |
@@ -305,5 +364,12 @@ the user provides them — say so in the rollup header.
 - Deciding the widget — that is psychology T2; deciding the library —
   that is sourcing.
 - Proposing a depth rule for a named value instead of its class.
+- Auditing only the state that happens to be rendered — the null
+  field in the payload is the state the number is for.
+- Scoring a sentence because it contains a number.
+- Scoring a sort menu, export button or pager as a datum — controls
+  are not data.
+- Recommending disclosure of a field without checking it against the
+  same field elsewhere in the product.
 
 <!-- SSOT: github.com/AlonurKomilov/skills -->
