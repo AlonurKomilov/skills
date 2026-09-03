@@ -1,6 +1,6 @@
 ---
 name: ux-audit-disclosure-depth
-version: 1.2.0
+version: 1.3.0
 family: abc
 domain: ux
 kind: audit
@@ -265,6 +265,38 @@ series or an expandable chart — that choice is `ux-audit-psychology`
 T2's. An `identifier` never takes a shape from this table; its need
 is a utility action (copy, open-in-source).
 
+**Pattern library (bundled resource, read at THIS step, not before).**
+WHICH pattern realises a shape — and whether the data can carry it —
+comes from `references/patterns.md`: ~40 patterns keyed by hidden
+question × class, each with prerequisites drawn from a closed
+vocabulary of ten data facts (`has_threshold`, `has_history`,
+`has_timestamp`, `is_cached`, `has_actor_log`, `has_breakdown`,
+`has_members`, `has_target_surface`, `has_baseline`, `has_action`),
+an anti-fit, and a tier (`verified` in a family run / `catalogued`
+from literature or a reference product). Load order:
+
+1. Read `references/patterns.md` from this skill's folder.
+2. If absent (a library copy that shipped SKILL.md alone), fetch it
+   from the SSOT:
+   `https://raw.githubusercontent.com/AlonurKomilov/skills/main/ux-audit-disclosure-depth/references/patterns.md`
+   and write `library: fetched from SSOT` in the report header.
+3. If neither is reachable, match against the answer-shape table
+   above only, write `library: unavailable`, and name the file the
+   user should attach next time. Never guess a pattern id.
+
+For every `INTERACT` and every argued `CANDIDATE`: open the family
+that matches the hidden question; keep the patterns whose class
+matches; verify each `requires` primitive from the source (✓ / ✗ /
+`?`); check the anti-fit; report the top one or two —
+`pattern: sparkline-tile (fit 1/1, verified) · alt: hover-series (fit 1/1)`
+— or `no pattern fits: has_history ✗ — data before UI`. Fit is
+prerequisites satisfied ÷ required; a `?` makes it a range; any
+anti-fit hit is `SKIP` regardless of fit. A `catalogued` pattern is
+proposed with its tier named so the user knows it is untested here.
+The pattern names the CONTENT and the usual rung; the project's own
+primitive (Step 0b) and the widget (psychology T2) stay where they
+were.
+
 Name the rung in the project's own vocabulary (Step 0b). The finding
 carries `Impact · Effort · Build`; `Build: new-component` /
 `new-dependency` hands off to `ux-sourcing-component`. WHICH control
@@ -296,6 +328,7 @@ population names the remainder.
 - Step 0 digest: data source <where> · depth vocabulary <primitives found> · values rules <found / SSOT-GAP>
 - Surfaces audited: <n> | Not yet audited: <list or "none">
 - Governing finding (optional): <the one change that answers most rows — a link to an existing surface, a prop already wired elsewhere — stated before the census when it exists>
+- Library: <folder | fetched from SSOT | unavailable>
 
 ## Datum census
 | # | Value (rendered) | Class | Affordance | Answers | D1 | D2 | D3 | D4 | D5 | D6 | Total | Status |
@@ -305,7 +338,7 @@ population names the remainder.
 
 ## Findings
 ### <Surface name>
-- **[Dn… — STATUS]** `[code|ui|code+ui]` <value> — hidden question: <…> · workaround today: <…> · change: <…> · rung: <R0–R4 in project vocabulary> `Impact: high|med|low · Effort: S|M|L · Build: existing|compose|new-component|new-dependency`
+- **[Dn… — STATUS]** `[code|ui|code+ui]` <value> — hidden question: <…> · workaround today: <…> · change: <…> · rung: <R0–R4 in project vocabulary> · pattern: <id (fit n/m, tier) · alt: …  |  no pattern fits: <primitive ✗>> `Impact: high|med|low · Effort: S|M|L · Build: existing|compose|new-component|new-dependency`
 - **[OVER-DISCLOSED]** <value> — opens <what>; no question behind it (<factors>) · propose: <demote/remove>
 
 ## Routed to siblings
@@ -322,7 +355,9 @@ population names the remainder.
 ```
 
 Rules: every score cites evidence or is `?`; totals with `?` print
-as ranges; every `SERVED` names where on the surface the answer is; every `INTERACT` carries all three lines and a rung; every
+as ranges; every `SERVED` names where on the surface the answer is;
+every `INTERACT` carries all three lines, a rung and a pattern line
+(or "no pattern fits" with the failing primitive); every
 `OVER-DISCLOSED` names the factors that fail; proposed rules are
 written for classes ("a `level` the product alerts on gets at least
 R1"), never for named values; findings that belong to siblings go
@@ -371,5 +406,7 @@ the user provides them — say so in the rollup header.
   are not data.
 - Recommending disclosure of a field without checking it against the
   same field elsewhere in the product.
+- Naming a pattern id that is not in the library, or proposing a
+  pattern whose prerequisites were not verified from the source.
 
 <!-- SSOT: github.com/AlonurKomilov/skills -->

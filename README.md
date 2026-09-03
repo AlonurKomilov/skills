@@ -9,7 +9,7 @@ Agent Skills format — the same SKILL.md runs on claude.ai, Claude Code and the
 | ux-audit-composition-layout | geometry (S1-S5, Part R) |
 | ux-audit-compliance-design-system | token compliance (Part V) |
 | ux-audit-performance-interaction | time / main thread (M1-M9, Part O, tools/measure.mjs) |
-| ux-audit-disclosure-depth | depth beneath each value (D1-D6, depth ladder R0-R4) |
+| ux-audit-disclosure-depth | depth beneath each value (D1-D6, depth ladder R0-R4, references/patterns.md) |
 | ux-sourcing-component | how to obtain components (Build ladder) |
 
 ## Flow
@@ -36,9 +36,13 @@ Claude Code follows symlinks; project-specific skills stay in each repo's
   description <= 1024 bytes (single line, YAML-safe — no `: ` colon+space
   inside plain scalars), name format, folder == name, name == taxonomy.
 - Method layer only in skills; project values (budgets, tokens) live in each
-  project's CLAUDE.md. `./validate.sh` greps every SKILL.md for a short list
-  of project/domain nouns and fails on a hit — skills audit CLASSES and
-  EVIDENCE, never named things.
+  project's CLAUDE.md. `./validate.sh` greps every `.md` inside a skill
+  folder (SKILL.md and `references/`) for a short list of project/domain
+  nouns and fails on a hit — skills audit CLASSES and EVIDENCE, never named
+  things.
+- Bundled resources live beside the skill (`tools/`, `references/`) and are
+  read lazily at the step that needs them; a skill names the fallback (fetch
+  from this repo) for platforms that upload SKILL.md alone.
 - Add-only edits, shown as diffs; every patch cites source evidence (field
   runs or taught material). One mechanism = one finding.
 
@@ -116,7 +120,7 @@ separate CHANGELOG file. Sync check = compare frontmatter versions
 
 Baselines (2026-09-03): psychology **v2.1.0** · composition-layout **v1.1.0** ·
 compliance-design-system **v1.1.0** · performance-interaction **v1.6.1** ·
-disclosure-depth **v1.2.0** · sourcing-component **v1.1.0**.
+disclosure-depth **v1.3.0** · sourcing-component **v1.1.0**.
 
 ## abc-lab/ — the family's kept-tooling workspace
 
@@ -182,3 +186,11 @@ ux-audit-performance-interaction v1.4–v1.5; applies to the whole family.)
   constraint (the run had to invent this); ethics mirror case extended to
   dash-columns, blank error tables and short-count summaries; optional
   "Governing finding" line before the census.
+- 2026-09-03: `ux-audit-disclosure-depth` v1.3.0 — pattern library
+  `references/patterns.md`: 40 patterns (25 verified in family runs, 15
+  catalogued from literature and one reference intake) keyed by hidden
+  question × class, prerequisites from a closed ten-primitive vocabulary,
+  anti-fits, two tiers; Step 4 reads it lazily with a three-step fallback
+  (folder → raw SSOT fetch → answer-shape table only, declared in the header).
+  validate.sh v7 extends the noun guard to resource files and rejects any
+  prerequisite outside the vocabulary.
