@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# abc-skills validate — run before every commit and before any claude.ai upload
+# abc-skills validate (v6) — run before every commit and before any claude.ai upload
 fail=0
 yamlwarn=""
 for f in */SKILL.md; do
@@ -36,6 +36,9 @@ for f in */SKILL.md; do
     [ -n "$scope" ] && expected="$expected-$scope"
     [ "$name" != "$expected" ] && { echo "FAIL $f: name-invariant — name='$name' expected='$expected'"; ok=0; }
   fi
+  # project-noun guard: skills are method layer — no project or domain nouns
+  nouns=$(grep -n -i -E '\b(4truck|samsara|fuel|odometer|freightliner)\b' "$f" || true)
+  [ -n "$nouns" ] && { echo "FAIL $f: project/domain noun in skill text:"; echo "$nouns" | head -3; ok=0; }
   [ $ok -eq 1 ] && echo "OK   $name v${ver:-?}  family=$family domain=$domain kind=$kind method=${method:--} scope=${scope:--} (desc ${dlen}B)" || fail=1
 done
 [ -n "$yamlwarn" ] && echo "WARN: python3+pyyaml topilmadi — strict-YAML tekshiruvi o'tkazib yuborildi"
