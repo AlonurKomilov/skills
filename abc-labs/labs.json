@@ -1,0 +1,25 @@
+{
+  "labs": 1,
+  "export": {
+    "id": "ux-audit",
+    "name": "UX audit skill family",
+    "tagline": "Six evidence-first audit skills that read a product surface for clarity, layout, design-system compliance, interaction performance and disclosure depth — and decide how to source what is missing.",
+    "kind": "resource",
+    "category": "knowledge",
+    "surfaces": {
+      "ai": { "format": "agent-skill" },
+      "import": {}
+    },
+    "tags": ["ux", "audit", "usability", "design-system", "frontend"],
+    "status": "alpha",
+    "started": "2026-08-21",
+    "install": {
+      "include": ["ux-*"],
+      "link": { ".claude/skills/{name}": "abc-labs/ux-audit/{name}" }
+    },
+    "links": {
+      "docs": "https://github.com/AlonurKomilov/skills#readme",
+      "feedback": "https://github.com/AlonurKomilov/skills/issues"
+    }
+  }
+}
